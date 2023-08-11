@@ -36,8 +36,6 @@ fun ListBeers(value: String) {
 
     var filteredBeers by remember { mutableStateOf(beers) }
 
-    var showProperties by remember { mutableStateOf(false) }
-
     LaunchedEffect(key1 = value) {
         try {
             beers = apiService.getBeers()
@@ -53,6 +51,7 @@ fun ListBeers(value: String) {
         Box{
             LazyColumn {
                 items(filteredBeers) { beer ->
+                    var showProperties by remember { mutableStateOf(false) }
                     Text(text = beer.name,
                         modifier = Modifier.clickable { showProperties = !showProperties},
                         color = MaterialTheme.colorScheme.primary,
