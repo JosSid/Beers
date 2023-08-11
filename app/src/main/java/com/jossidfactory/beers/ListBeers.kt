@@ -1,5 +1,6 @@
 package com.jossidfactory.beers
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +16,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import com.jossidfactory.beers.service.ApiService
 import com.jossidfactory.beers.model.Beer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 @Composable
 fun ListBeers(value: String) {
@@ -33,6 +36,8 @@ fun ListBeers(value: String) {
 
     var filteredBeers by remember { mutableStateOf(beers) }
 
+    var showProperties by remember { mutableStateOf(false) }
+
     LaunchedEffect(key1 = value) {
         try {
             beers = apiService.getBeers()
@@ -40,7 +45,7 @@ fun ListBeers(value: String) {
             // Manejar errores de red aquí
         }
         if (value.isNotEmpty()) {
-            filteredBeers = beers.filter { beer -> beer.name.contains(value)}
+            filteredBeers = beers.filter { beer -> beer.name.lowercase().contains(value.lowercase())}
         } else {
             filteredBeers = beers
         }
@@ -48,9 +53,18 @@ fun ListBeers(value: String) {
         Box{
             LazyColumn {
                 items(filteredBeers) { beer ->
-                    Text(text = beer.name)
+                    Text(text = beer.name,
+                        modifier = Modifier.clickable { showProperties = !showProperties},
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.titleLarge
+                        )
+                    if(showProperties) BeerDetail(beer = beer)
+
                 }
             }
+
+
         }
 
     }
