@@ -30,7 +30,8 @@ fun SearchBeers(value: String, onValueChange: (String) -> Unit) {
         TextField(
             value = value ,
             onValueChange = { onValueChange(it) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Search") }
         )
         Text(
             text = value,
