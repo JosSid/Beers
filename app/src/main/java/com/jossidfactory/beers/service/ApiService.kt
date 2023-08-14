@@ -10,5 +10,5 @@ interface ApiService {
     suspend fun getBeers(): List<Beer>
 
     @GET("beers/{id}")
-    suspend fun getBeerById(@Path("id") beer: Beer): Response<Beer>
+    suspend fun getBeerById(@Path("id") id: String): List<Beer>
 }

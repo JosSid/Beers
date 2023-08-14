@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.jossidfactory.beers.screen.DetailScreen
 import com.jossidfactory.beers.screen.HomeScreen
 import com.jossidfactory.beers.ui.theme.BeersTheme
 
@@ -22,10 +23,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
-                    //var (value , onValueChange) = rememberSaveable {mutableStateOf("")}
                     HomeScreen()
-                    //SearchBeers(value = value, onValueChange = onValueChange)
+                    //DetailScreen("5")
                 }
             }
         }

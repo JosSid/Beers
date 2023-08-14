@@ -35,7 +35,7 @@ fun LogoApp() {
             modifier = Modifier.size(100.dp)
         )
         Text(
-            text = "Find your favourite Beer",
+            text = "Your Favorite Beer",
             fontSize = 20.sp,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
