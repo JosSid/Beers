@@ -22,17 +22,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.jossidfactory.beers.BeerDetail
+import androidx.navigation.NavController
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.component.TextFieldBase
 import com.jossidfactory.beers.model.Beer
+import com.jossidfactory.beers.navigation.Screen
 import com.jossidfactory.beers.service.RetrofitHelper
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(){
+fun HomeScreen(navController: NavController){
     val retrofit = RetrofitHelper.getInstance()
     var searchValue by remember { mutableStateOf("") }
     var beers by remember { mutableStateOf(emptyList<Beer>()) }
@@ -69,15 +70,17 @@ fun HomeScreen(){
                 Spacer(modifier = Modifier.padding(10.dp))
             }
             items(filteredBeers) { beer ->
-                var showProperties by remember { mutableStateOf(false) }
                 Text(text = beer.name,
-                    modifier = Modifier.clickable { showProperties = !showProperties},
+                    modifier = Modifier.clickable { navController.navigate(
+                        "${Screen.DetailScreen.route}${beer.id}") {
+                        popUpTo(Screen.HomeScreen.route) {
+                            inclusive = true
+                        }
+                    }},
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge
                 )
-                if(showProperties) BeerDetail(beer = beer)
-
             }
         }
 

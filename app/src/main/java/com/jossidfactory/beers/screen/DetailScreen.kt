@@ -26,27 +26,30 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.model.Beer
+import com.jossidfactory.beers.navigation.Screen
 import com.jossidfactory.beers.service.RetrofitHelper
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(id: String) {
+fun DetailScreen(navController: NavController, beerId: String) {
     val retrofit = RetrofitHelper.getInstance()
 
     var beers by remember { mutableStateOf(emptyList<Beer>()) }
 
-    LaunchedEffect(key1 = id) {
+    LaunchedEffect(key1 = beerId) {
         try {
-            beers = retrofit.getBeerById(id)
+            beers = retrofit.getBeerById(beerId)
 
         } catch (e: Exception) {
             // Manejar errores de red aquí
+
         }
     }
     Scaffold(
@@ -79,7 +82,12 @@ fun DetailScreen(id: String) {
                     Spacer(modifier = Modifier.padding(10.dp))
                     Text(text = "Graduation ${beer.abv}")
                     Spacer(modifier = Modifier.padding(10.dp))
-                    ButtonBase(text = "Back to list", onClick =  { })
+                    ButtonBase(text = "Back to list", onClick =  { navController.navigate(Screen
+                        .HomeScreen.route) {
+                        popUpTo(Screen.DetailScreen.route) {
+                            inclusive = true
+                        }
+                    }})
                 }
             }
         }
