@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,7 +42,7 @@ import com.jossidfactory.beers.service.RetrofitHelper
 fun DetailScreen(navController: NavController, beerId: String) {
     val retrofit = RetrofitHelper.getInstance()
 
-    var beers by remember { mutableStateOf(emptyList<Beer>()) }
+    var beers by rememberSaveable { mutableStateOf(emptyList<Beer>()) }
 
     LaunchedEffect(key1 = beerId) {
         try {

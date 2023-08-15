@@ -17,6 +17,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,10 +36,10 @@ import com.jossidfactory.beers.service.RetrofitHelper
 @Composable
 fun HomeScreen(navController: NavController){
     val retrofit = RetrofitHelper.getInstance()
-    var searchValue by remember { mutableStateOf("") }
-    var beers by remember { mutableStateOf(emptyList<Beer>()) }
+    var searchValue by rememberSaveable { mutableStateOf("") }
+    var beers by rememberSaveable { mutableStateOf(emptyList<Beer>()) }
 
-    var filteredBeers by remember { mutableStateOf(beers) }
+    var filteredBeers by rememberSaveable { mutableStateOf(beers) }
 
     LaunchedEffect(key1 = searchValue) {
         try {
