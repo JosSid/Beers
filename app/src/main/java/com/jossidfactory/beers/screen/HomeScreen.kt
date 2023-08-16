@@ -16,14 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.component.TextFieldBase
@@ -63,17 +64,21 @@ fun HomeScreen(navController: NavController){
             item {
                 LogoApp()
                 Spacer(modifier = Modifier.padding(10.dp))
-                TextFieldBase(text = "Search", textValue = searchValue) { newValue ->
+                TextFieldBase(text = stringResource(R.string.search), textValue = searchValue) {
+                        newValue ->
                     searchValue = newValue
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
-                ButtonBase(text = "Clear", onClick =  { searchValue = ""})
+                ButtonBase(text = stringResource(R.string.clear), onClick =  { searchValue = ""})
                 Spacer(modifier = Modifier.padding(10.dp))
+                if(filteredBeers.isEmpty()) {
+                    Text(text = stringResource(R.string.not_beers),)
+                }
             }
             items(filteredBeers) { beer ->
                 Text(text = beer.name,
                     modifier = Modifier.clickable { navController.navigate(
-                        "${Screen.DetailScreen.route}${beer.id}") {
+                        "detail_screen/${beer.id}") {
                         popUpTo(Screen.HomeScreen.route) {
                             inclusive = true
                         }

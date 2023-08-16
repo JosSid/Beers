@@ -17,10 +17,7 @@ fun Navigation() {
         }
         composable(Screen.DetailScreen.route) { backStackEntry ->
             val arguments = backStackEntry.arguments
-            val beerIdo = arguments?.getString("beerId")
-            val rawBeerId = beerIdo
-            val beerId = rawBeerId?.removePrefix("{beerId}")
-            Log.d("Args2", "$beerIdo")
+            val beerId = arguments?.getString("beerId")
             beerId?.let { id ->
                 DetailScreen(navController, id)
             }

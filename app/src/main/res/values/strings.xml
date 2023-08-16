@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">beers</string>
+    <string name="not_beers">Not Beers with your search</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="back_to_list">Back to list</string>
+    <string name="alcohol_content">ABV</string>
 </resources>
