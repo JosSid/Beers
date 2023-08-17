@@ -52,6 +52,7 @@ android {
 dependencies {
 
     val nav_version = "2.5.3"
+    val lifecycle_version = "2.5.1"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -68,6 +69,9 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

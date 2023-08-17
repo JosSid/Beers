@@ -14,9 +14,7 @@ import com.jossidfactory.beers.R
 fun TextFieldBase(text: String, textValue: String, onTextValueChange: (String) -> Unit) {
     OutlinedTextField(
         value = textValue,
-        onValueChange = { newValue ->
-            onTextValueChange(newValue)
-        },
+        onValueChange = { onTextValueChange(it) },
         trailingIcon = {
             Icon(painter = painterResource(id = R.drawable.baseline_search_24),
                 contentDescription = "search")
