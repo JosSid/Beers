@@ -25,8 +25,12 @@ class HomeViewModel(): ViewModel() {
 
     fun onInit() {
         viewModelScope.launch {
-            beers = retrofit.getBeers().toMutableList()
-            _filteredBeers.value = beers
+            try {
+                beers = retrofit.getBeers().toMutableList()
+                _filteredBeers.value = beers
+            }catch (e: Exception) {
+
+            }
         }
     }
     fun onSearchChange(searchValue: String) {

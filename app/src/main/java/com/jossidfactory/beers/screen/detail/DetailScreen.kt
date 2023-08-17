@@ -1,4 +1,4 @@
-package com.jossidfactory.beers.screen
+package com.jossidfactory.beers.screen.detail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -12,11 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,25 +28,14 @@ import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.model.Beer
 import com.jossidfactory.beers.navigation.Screen
-import com.jossidfactory.beers.service.RetrofitHelper
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, beerId: String) {
-    val retrofit = RetrofitHelper.getInstance()
+fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel) {
 
-    var beers by rememberSaveable { mutableStateOf(emptyList<Beer>()) }
+    val beers: List<Beer> by detailViewModel.beers.observeAsState(initial = emptyList())
 
-    LaunchedEffect(key1 = beerId) {
-        try {
-            beers = retrofit.getBeerById(beerId)
-
-        } catch (e: Exception) {
-            // Manejar errores de red aquí
-
-        }
-    }
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
