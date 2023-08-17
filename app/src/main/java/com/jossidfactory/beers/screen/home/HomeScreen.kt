@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel){
             items(filteredBeers) { beer ->
                 Text(text = beer.name,
                     modifier = Modifier.clickable { navController.navigate(
-                        "detail_screen/${beer}") {
+                        "detail_screen/${beer.id}") {
                         popUpTo(Screen.HomeScreen.route) {
                             inclusive = true
                         }
