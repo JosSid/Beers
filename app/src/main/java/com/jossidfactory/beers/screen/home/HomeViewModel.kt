@@ -13,44 +13,54 @@ import kotlinx.coroutines.launch
 class HomeViewModel(): ViewModel() {
     private val retrofit = RetrofitHelper.getInstance()
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoadig: LiveData<Boolean> = _isLoading
+    private val homeState = HomeState()
 
-    private val _error = MutableLiveData<Boolean>()
-    val error: LiveData<Boolean> = _error
+    private val _state = MutableLiveData<HomeState>()
+    val state: LiveData<HomeState> = _state
 
-    private val _searchValue = MutableLiveData<String>()
-    val searchValue: LiveData<String> = _searchValue
-
-    private val _filteredBeers = MutableLiveData<List<Beer>>()
-    val filteredBeers: LiveData<List<Beer>> = _filteredBeers
-
-    private var beers = mutableListOf<Beer>()
-
+    var beers = mutableListOf<Beer>()
+        private set
     init {
         onInit()
     }
 
     private fun onInit() {
+        _state.value = homeState
         viewModelScope.launch {
-            _error.value = false
+            _state.value = _state.value?.copy(
+                error = true
+            )
             try {
-                _isLoading.value = true
+                _state.value = _state.value?.copy(
+                    isLoading = true
+                )
                 delay(1500)
                 beers = retrofit.getBeers().toMutableList()
-                _filteredBeers.value = beers
+                _state.value = _state.value?.copy(
+                    filteredBeers = beers
+                )
             }catch (e: Exception) {
-                _error.value = true
+                _state.value = _state.value?.copy(
+                    error = true
+                )
             }
-            _isLoading.value = false
+            _state.value = _state.value?.copy(
+                isLoading = false
+            )
         }
     }
     fun onSearchChange(searchValue: String) {
-        _searchValue.value = searchValue
-        if(searchValue.isNotEmpty()) {
-            _filteredBeers.value = beers.filter { beer -> beer.name.lowercase().contains(searchValue.lowercase()) }
+        _state.value = _state.value?.copy(
+            searchValue = searchValue
+        )
+        if (searchValue.isNotEmpty()) {
+            _state.value = _state.value?.copy(
+                filteredBeers = beers.filter { beer -> beer.name.lowercase().contains(searchValue.lowercase()) }
+            )
         } else {
-            _filteredBeers.value = beers
+            _state.value = _state.value?.copy(
+                filteredBeers = beers
+            )
         }
     }
 }

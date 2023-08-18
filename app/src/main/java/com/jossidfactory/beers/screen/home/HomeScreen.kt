@@ -27,7 +27,6 @@ import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.component.TextFieldBase
-import com.jossidfactory.beers.model.Beer
 import com.jossidfactory.beers.navigation.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,12 +38,7 @@ fun HomeScreen(navController: NavController){
         factory = HomeViewModelFactory()
     )
 
-    val searchValue: String by homeViewModel.searchValue.observeAsState(initial = "")
-
-    val isLoading: Boolean by homeViewModel.isLoadig.observeAsState(initial = false)
-    
-    val filteredBeers: List<Beer> by homeViewModel.filteredBeers.observeAsState(initial =
-    emptyList())
+    val state: HomeState by homeViewModel.state.observeAsState(HomeState())
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -56,20 +50,20 @@ fun HomeScreen(navController: NavController){
             item {
                 LogoApp()
                 Spacer(modifier = Modifier.padding(10.dp))
-                TextFieldBase(text = stringResource(R.string.search), textValue = searchValue,
+                TextFieldBase(text = stringResource(R.string.search), textValue = state.searchValue,
                     onTextValueChange = { homeViewModel.onSearchChange(it)})
                 Spacer(modifier = Modifier.padding(10.dp))
                 ButtonBase(text = stringResource(R.string.clear), onClick =  { homeViewModel.onSearchChange("")})
                 Spacer(modifier = Modifier.padding(10.dp))
-                if(filteredBeers.isEmpty()) {
+                if(state.filteredBeers.isEmpty()) {
                     Text(text = stringResource(R.string.not_beers))
                 }
-                if (isLoading){
+                if (state.isLoading){
                     Spacer(modifier = Modifier.padding(30.dp))
                     CircularProgressIndicator()
                 }
             }
-            items(filteredBeers) { beer ->
+            items(state.filteredBeers) { beer ->
                 Text(text = beer.name,
                     modifier = Modifier.clickable { navController.navigate(
                         "detail_screen/${beer.id}") {
