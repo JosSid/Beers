@@ -20,7 +20,7 @@ class DetailViewModel(id: String) : ViewModel() {
         onInit(id)
     }
 
-    fun onInit(id: String) {
+    private fun onInit(id: String) {
         viewModelScope.launch {
             try {
                 allBeers = retrofit.getBeerById(id).toMutableList()

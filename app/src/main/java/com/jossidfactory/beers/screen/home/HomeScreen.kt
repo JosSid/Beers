@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
@@ -31,12 +33,18 @@ import com.jossidfactory.beers.navigation.Screen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel){
+fun HomeScreen(navController: NavController){
+
+    val homeViewModel: HomeViewModel = viewModel(
+        factory = HomeViewModelFactory()
+    )
 
     val searchValue: String by homeViewModel.searchValue.observeAsState(initial = "")
-    
-    val filteredBeers: List<Beer> by homeViewModel.filteredBeers.observeAsState(initial = emptyList())
 
+    val isLoading: Boolean by homeViewModel.isLoadig.observeAsState(initial = false)
+    
+    val filteredBeers: List<Beer> by homeViewModel.filteredBeers.observeAsState(initial =
+    emptyList())
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -54,7 +62,11 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel){
                 ButtonBase(text = stringResource(R.string.clear), onClick =  { homeViewModel.onSearchChange("")})
                 Spacer(modifier = Modifier.padding(10.dp))
                 if(filteredBeers.isEmpty()) {
-                    Text(text = stringResource(R.string.not_beers),)
+                    Text(text = stringResource(R.string.not_beers))
+                }
+                if (isLoading){
+                    Spacer(modifier = Modifier.padding(30.dp))
+                    CircularProgressIndicator()
                 }
             }
             items(filteredBeers) { beer ->
