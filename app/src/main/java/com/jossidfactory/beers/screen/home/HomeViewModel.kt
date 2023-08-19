@@ -10,7 +10,7 @@ import com.jossidfactory.beers.service.RetrofitHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeViewModel(): ViewModel() {
+class HomeViewModel : ViewModel() {
     private val retrofit = RetrofitHelper.getInstance()
 
     private val homeState = HomeState()
@@ -27,14 +27,11 @@ class HomeViewModel(): ViewModel() {
     private fun onInit() {
         _state.value = homeState
         viewModelScope.launch {
-            _state.value = _state.value?.copy(
-                error = true
-            )
             try {
                 _state.value = _state.value?.copy(
                     isLoading = true
                 )
-                delay(1500)
+                delay(1000)
                 beers = retrofit.getBeers().toMutableList()
                 _state.value = _state.value?.copy(
                     filteredBeers = beers
@@ -65,7 +62,7 @@ class HomeViewModel(): ViewModel() {
     }
 }
 
-//Preguntar acerca de la factory
+// Preguntar acerca de la factory
 class HomeViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {

@@ -6,28 +6,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jossidfactory.beers.model.Beer
 import com.jossidfactory.beers.service.RetrofitHelper
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetailViewModel(id: String) : ViewModel() {
     private val retrofit = RetrofitHelper.getInstance()
 
-    private val _beers = MutableLiveData<List<Beer>>()
-    var beers: LiveData<List<Beer>> = _beers
+    private val detailState = DetailState()
 
-    private var allBeers = mutableListOf<Beer>()
+    private val _state = MutableLiveData<DetailState>()
+    val state: LiveData<DetailState> = _state
+
+    private var responseBeers = mutableListOf<Beer>()
 
     init {
         onInit(id)
     }
 
     private fun onInit(id: String) {
+        _state.value = detailState
         viewModelScope.launch {
             try {
-                allBeers = retrofit.getBeerById(id).toMutableList()
-                _beers.value = allBeers
+                _state.value = _state.value?.copy(
+                    isLoading = true
+                )
+                delay(1000)
+                responseBeers = retrofit.getBeerById(id).toMutableList()
+                _state.value = _state.value?.copy( beer = responseBeers[0] )
             }catch (e: Exception) {
-
+                _state.value = _state.value?.copy(
+                    error = true
+                )
             }
+            _state.value = _state.value?.copy(
+                isLoading = false
+            )
         }
     }
 }

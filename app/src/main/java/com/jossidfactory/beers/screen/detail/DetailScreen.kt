@@ -2,11 +2,13 @@ package com.jossidfactory.beers.screen.detail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,7 +28,6 @@ import coil.compose.AsyncImage
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
-import com.jossidfactory.beers.model.Beer
 import com.jossidfactory.beers.navigation.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -34,7 +35,7 @@ import com.jossidfactory.beers.navigation.Screen
 @Composable
 fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel) {
 
-    val beers: List<Beer> by detailViewModel.beers.observeAsState(initial = emptyList())
+    val state: DetailState by detailViewModel.state.observeAsState(DetailState())
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -46,9 +47,16 @@ fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel)
             item {
                 LogoApp()
                 Spacer(modifier = Modifier.padding(10.dp))
-                beers.forEach { beer ->
+                if (state.isLoading) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ){
+                        CircularProgressIndicator()
+                    }
+                } else {
                     Text(
-                        text = "${beer.name}",
+                        text = "${state.beer?.name}",
                         fontSize = 20.sp,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
@@ -57,22 +65,29 @@ fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel)
                         )
                     )
                     Spacer(modifier = Modifier.padding(20.dp))
-                    AsyncImage(model = beer.image_url, contentDescription = "image", modifier =
-                    Modifier.height(200.dp))
+                    AsyncImage(
+                        model = state.beer?.image_url, contentDescription = "image", modifier =
+                        Modifier.height(200.dp)
+                    )
                     Spacer(modifier = Modifier.padding(10.dp))
                     Text(
-                        text = "${beer.description}",
-                        modifier = Modifier.padding(10.dp))
+                        text = "${state.beer?.description}",
+                        modifier = Modifier.padding(10.dp)
+                    )
                     Spacer(modifier = Modifier.padding(10.dp))
-                    Text(text = "${stringResource(R.string.alcohol_content)} ${beer.abv}")
+                    Text(text = "${stringResource(R.string.alcohol_content)} ${state.beer?.abv} %")
                     Spacer(modifier = Modifier.padding(10.dp))
-                    ButtonBase(text = stringResource(R.string.back_to_list), onClick =  { navController
-                        .navigate(Screen
-                        .HomeScreen.route) {
-                        popUpTo(Screen.DetailScreen.route) {
-                            inclusive = true
-                        }
-                    }})
+                    ButtonBase(text = stringResource(R.string.back_to_list), onClick = {
+                        navController
+                            .navigate(
+                                Screen
+                                    .HomeScreen.route
+                            ) {
+                                popUpTo(Screen.DetailScreen.route) {
+                                    inclusive = true
+                                }
+                            }
+                    })
                 }
             }
         }
