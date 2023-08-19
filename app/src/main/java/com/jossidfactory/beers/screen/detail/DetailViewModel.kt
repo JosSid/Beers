@@ -3,6 +3,7 @@ package com.jossidfactory.beers.screen.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.jossidfactory.beers.model.Beer
 import com.jossidfactory.beers.service.RetrofitHelper
@@ -42,5 +43,15 @@ class DetailViewModel(id: String) : ViewModel() {
                 isLoading = false
             )
         }
+    }
+}
+
+class DetailViewModelFactory(private val id: String) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return DetailViewModel(id) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

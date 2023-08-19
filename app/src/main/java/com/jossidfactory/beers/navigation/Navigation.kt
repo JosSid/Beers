@@ -5,7 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jossidfactory.beers.screen.detail.DetailScreen
-import com.jossidfactory.beers.screen.detail.DetailViewModel
 import com.jossidfactory.beers.screen.home.HomeScreen
 
 @Composable
@@ -19,8 +18,7 @@ fun Navigation() {
             val arguments = backStackEntry.arguments
             val beerId = arguments?.getString("beerId")
             beerId?.let { id ->
-                val detailViewModel = DetailViewModel(id)
-                DetailScreen(navController, detailViewModel)
+                DetailScreen(navController, id)
             }
         }
     }

@@ -23,6 +23,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.jossidfactory.beers.R
@@ -33,7 +35,11 @@ import com.jossidfactory.beers.navigation.Screen
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, detailViewModel: DetailViewModel) {
+fun DetailScreen(navController: NavController, id: String) {
+
+    val viewModelFactory = DetailViewModelFactory(id)
+    val detailViewModel = ViewModelProvider(LocalViewModelStoreOwner.current!!, viewModelFactory)
+        .get(DetailViewModel::class.java)
 
     val state: DetailState by detailViewModel.state.observeAsState(DetailState())
 
