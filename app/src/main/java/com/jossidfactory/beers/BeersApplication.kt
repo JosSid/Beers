@@ -2,6 +2,7 @@ package com.jossidfactory.beers
 
 import android.app.Application
 import com.jossidfactory.beers.di.DataModule
+import com.jossidfactory.beers.di.DomainModule
 import com.jossidfactory.beers.di.ViewModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext
@@ -14,6 +15,7 @@ class BeersApplication: Application() {
             androidContext(this@BeersApplication)
             modules(
                 DataModule,
+                DomainModule,
                 ViewModule
             )
         }

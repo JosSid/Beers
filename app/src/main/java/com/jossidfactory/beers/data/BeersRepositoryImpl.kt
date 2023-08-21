@@ -2,12 +2,12 @@ package com.jossidfactory.beers.data
 
 import com.jossidfactory.beers.domain.model.Beer
 
-class BeersRepositoryImpl(): BeersRepository {
+class BeersRepositoryImpl(private val apiService: ApiService): BeersRepository {
     override suspend fun getBeers(): List<Beer> {
-        TODO("Not yet implemented")
+        return apiService.getBeers()
     }
 
     override suspend fun getBeerById(beerId: String): List<Beer> {
-        TODO("Not yet implemented")
+        return apiService.getBeerById(beerId)
     }
 }

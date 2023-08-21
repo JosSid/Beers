@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jossidfactory.beers.data.ApiService
 import com.jossidfactory.beers.domain.model.Beer
+import com.jossidfactory.beers.domain.usecase.GetBeersListUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeViewModel(val apiService: ApiService) : ViewModel() {
+class HomeViewModel(private val getBeersListUseCase: GetBeersListUseCase) : ViewModel() {
 
     private val homeState = HomeState()
 
@@ -30,7 +30,7 @@ class HomeViewModel(val apiService: ApiService) : ViewModel() {
                     isLoading = true
                 )
                 delay(1000)
-                beers = apiService.getBeers().toMutableList()
+                beers = getBeersListUseCase.invoke().toMutableList()
                 _state.value = _state.value?.copy(
                     filteredBeers = beers
                 )

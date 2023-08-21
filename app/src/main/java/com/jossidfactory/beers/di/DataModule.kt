@@ -2,6 +2,8 @@ package com.jossidfactory.beers.di
 
 import com.jossidfactory.beers.BuildConfig
 import com.jossidfactory.beers.data.ApiService
+import com.jossidfactory.beers.data.BeersRepository
+import com.jossidfactory.beers.data.BeersRepositoryImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.koin.dsl.module
@@ -27,6 +29,10 @@ val DataModule = module {
 
     single<ApiService> {
         getDataApi(get())
+    }
+
+    single<BeersRepository> {
+        BeersRepositoryImpl(get())
     }
 }
 
