@@ -21,22 +21,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.component.TextFieldBase
 import com.jossidfactory.beers.navigation.Screen
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = koinViewModel()){
 
-    val homeViewModel: HomeViewModel = viewModel(
-        factory = HomeViewModelFactory()
-    )
 
     val state: HomeState by homeViewModel.state.observeAsState(HomeState())
 

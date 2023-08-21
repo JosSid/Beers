@@ -1,7 +1,6 @@
-package com.jossidfactory.beers.service
+package com.jossidfactory.beers.data
 
-import com.jossidfactory.beers.model.Beer
-import retrofit2.Response
+import com.jossidfactory.beers.domain.model.Beer
 import retrofit2.http.GET
 import retrofit2.http.Path
 

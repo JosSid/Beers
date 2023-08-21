@@ -1,6 +1,6 @@
 package com.jossidfactory.beers.screen.home
 
-import com.jossidfactory.beers.model.Beer
+import com.jossidfactory.beers.domain.model.Beer
 
 data class HomeState(
     val isLoading: Boolean = false,

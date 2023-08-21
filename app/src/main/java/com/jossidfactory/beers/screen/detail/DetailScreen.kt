@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -23,25 +24,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.navigation.Screen
+import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, id: String) {
-
-    val viewModelFactory = DetailViewModelFactory(id)
-    val detailViewModel = ViewModelProvider(LocalViewModelStoreOwner.current!!, viewModelFactory)
-        .get(DetailViewModel::class.java)
+fun DetailScreen(navController: NavController, id: String, detailViewModel: DetailViewModel =
+    koinViewModel()) {
 
     val state: DetailState by detailViewModel.state.observeAsState(DetailState())
+
+    LaunchedEffect(Unit) {
+        detailViewModel.getBeerById(id)
+    }
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)

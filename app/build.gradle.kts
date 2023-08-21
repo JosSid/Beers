@@ -29,6 +29,26 @@ android {
             )
         }
     }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        create("mock") {
+            dimension = "environment"
+            applicationIdSuffix = ".mock"
+            buildConfigField("String", "SERVER_URL", "\"https://api.punkapi.com/v2/\"")
+        }
+
+        create("pre") {
+            dimension = "environment"
+            applicationIdSuffix = ".pre"
+            buildConfigField("String", "SERVER_URL", "\"https://api.punkapi.com/v2/\"")
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -53,6 +73,8 @@ dependencies {
 
     val nav_version = "2.5.3"
     val lifecycle_version = "2.5.1"
+    val koin_version = "3.4.2"
+    val retrofit_version = "2.9.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -62,8 +84,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.activity:activity-ktx:1.7.1")
@@ -72,6 +95,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
+    implementation("io.insert-koin:koin-android:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

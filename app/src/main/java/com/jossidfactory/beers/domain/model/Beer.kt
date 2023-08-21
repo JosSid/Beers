@@ -1,4 +1,4 @@
-package com.jossidfactory.beers.model
+package com.jossidfactory.beers.domain.model
 
 data class Beer(
     val id: Int,

@@ -3,15 +3,13 @@ package com.jossidfactory.beers.screen.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.jossidfactory.beers.model.Beer
-import com.jossidfactory.beers.service.RetrofitHelper
+import com.jossidfactory.beers.data.ApiService
+import com.jossidfactory.beers.domain.model.Beer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-    private val retrofit = RetrofitHelper.getInstance()
+class HomeViewModel(val apiService: ApiService) : ViewModel() {
 
     private val homeState = HomeState()
 
@@ -32,7 +30,7 @@ class HomeViewModel : ViewModel() {
                     isLoading = true
                 )
                 delay(1000)
-                beers = retrofit.getBeers().toMutableList()
+                beers = apiService.getBeers().toMutableList()
                 _state.value = _state.value?.copy(
                     filteredBeers = beers
                 )
@@ -62,15 +60,6 @@ class HomeViewModel : ViewModel() {
     }
 }
 
-// Preguntar acerca de la factory
-class HomeViewModelFactory : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel() as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 
 
 
