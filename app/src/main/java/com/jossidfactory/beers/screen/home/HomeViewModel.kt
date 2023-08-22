@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jossidfactory.beers.domain.model.Beer
+import com.jossidfactory.beers.domain.model.BeerModel
 import com.jossidfactory.beers.domain.usecase.GetBeersListUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class HomeViewModel(private val getBeersListUseCase: GetBeersListUseCase) : View
     private val _state = MutableLiveData<HomeState>()
     val state: LiveData<HomeState> = _state
 
-    var beers = mutableListOf<Beer>()
+    var beerModels = mutableListOf<BeerModel>()
         private set
     init {
         onInit()
@@ -30,13 +30,13 @@ class HomeViewModel(private val getBeersListUseCase: GetBeersListUseCase) : View
                     isLoading = true
                 )
                 delay(1000)
-                beers = getBeersListUseCase.invoke().toMutableList()
+                beerModels = getBeersListUseCase.invoke().toMutableList()
                 _state.value = _state.value?.copy(
-                    filteredBeers = beers
+                    filteredBeerDtos = beerModels
                 )
-            }catch (e: Exception) {
+            }catch (e: Throwable) {
                 _state.value = _state.value?.copy(
-                    error = true
+                    error = e.message.toString()
                 )
             }
             _state.value = _state.value?.copy(
@@ -50,11 +50,12 @@ class HomeViewModel(private val getBeersListUseCase: GetBeersListUseCase) : View
         )
         if (searchValue.isNotEmpty()) {
             _state.value = _state.value?.copy(
-                filteredBeers = beers.filter { beer -> beer.name.lowercase().contains(searchValue.lowercase()) }
+                filteredBeerDtos = beerModels.filter { beer -> beer.name.lowercase().contains(searchValue.lowercase())
+                     }
             )
         } else {
             _state.value = _state.value?.copy(
-                filteredBeers = beers
+                filteredBeerDtos = beerModels
             )
         }
     }

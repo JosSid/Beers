@@ -63,7 +63,7 @@ fun DetailScreen(navController: NavController, id: String, detailViewModel: Deta
                     }
                 } else {
                     Text(
-                        text = "${state.beer?.name}",
+                        text = "${state.beerDto?.name}",
                         fontSize = 20.sp,
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
@@ -73,16 +73,16 @@ fun DetailScreen(navController: NavController, id: String, detailViewModel: Deta
                     )
                     Spacer(modifier = Modifier.padding(20.dp))
                     AsyncImage(
-                        model = state.beer?.image_url, contentDescription = "image", modifier =
+                        model = state.beerDto?.imageUrl, contentDescription = "image", modifier =
                         Modifier.height(200.dp)
                     )
                     Spacer(modifier = Modifier.padding(10.dp))
                     Text(
-                        text = "${state.beer?.description}",
+                        text = "${state.beerDto?.description}",
                         modifier = Modifier.padding(10.dp)
                     )
                     Spacer(modifier = Modifier.padding(10.dp))
-                    Text(text = "${stringResource(R.string.alcohol_content)} ${state.beer?.abv} %")
+                    Text(text = "${stringResource(R.string.alcohol_content)} ${state.beerDto?.abv} %")
                     Spacer(modifier = Modifier.padding(10.dp))
                     ButtonBase(text = stringResource(R.string.back_to_list), onClick = {
                         navController

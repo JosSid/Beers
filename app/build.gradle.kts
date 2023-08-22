@@ -71,10 +71,10 @@ android {
 
 dependencies {
 
-    val nav_version = "2.5.3"
-    val lifecycle_version = "2.5.1"
-    val koin_version = "3.4.2"
-    val retrofit_version = "2.9.0"
+    val navVersion = "2.5.3"
+    val lifecycleVersion = "2.5.1"
+    val koinVersion = "3.4.2"
+    val retrofitVersion = "2.9.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -84,19 +84,19 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
-    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.okhttp3:okhttp:4.9.0")
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.navigation:navigation-compose:$navVersion")
     implementation("androidx.activity:activity-ktx:1.7.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
-    implementation("io.insert-koin:koin-android:$koin_version")
-    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

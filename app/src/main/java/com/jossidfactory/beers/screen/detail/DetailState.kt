@@ -1,9 +1,9 @@
 package com.jossidfactory.beers.screen.detail
 
-import com.jossidfactory.beers.domain.model.Beer
+import com.jossidfactory.beers.domain.model.BeerModel
 
 data class DetailState(
-    val beer: Beer? = null,
+    val beerDto: BeerModel? = null,
     val isLoading: Boolean = false,
-    val error: Boolean = false
+    val error: String = ""
 )

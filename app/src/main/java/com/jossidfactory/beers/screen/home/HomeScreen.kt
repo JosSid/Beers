@@ -52,7 +52,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = koin
                 Spacer(modifier = Modifier.padding(10.dp))
                 ButtonBase(text = stringResource(R.string.clear), onClick =  { homeViewModel.onSearchChange("")})
                 Spacer(modifier = Modifier.padding(10.dp))
-                if(state.filteredBeers.isEmpty()) {
+                if(state.filteredBeerDtos.isEmpty()) {
                     Text(text = stringResource(R.string.not_beers))
                 }
                 if (state.isLoading){
@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = koin
                     CircularProgressIndicator()
                 }
             }
-            items(state.filteredBeers) { beer ->
+            items(state.filteredBeerDtos) { beer ->
                 Text(text = beer.name,
                     modifier = Modifier.clickable { navController.navigate(
                         "detail_screen/${beer.id}") {

@@ -1,9 +1,9 @@
 package com.jossidfactory.beers.domain.model
 
-data class Beer(
+data class BeerModel(
     val id: Int,
     val name: String,
     val description: String,
-    val image_url: String,
+    val imageUrl: String,
     val abv: Double
 )
