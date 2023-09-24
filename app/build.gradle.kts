@@ -77,6 +77,7 @@ dependencies {
     val koinVersion = "3.4.2"
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.5.0"
+    val mockkVersion = "1.13.8"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
@@ -111,6 +112,9 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+    //Test
+    testImplementation("io.mockk:mockk:${mockkVersion}")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

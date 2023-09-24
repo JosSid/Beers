@@ -21,53 +21,49 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
 import com.jossidfactory.beers.component.TextFieldBase
-import com.jossidfactory.beers.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, homeViewModel: HomeViewModel = koinViewModel()){
-
-
+fun HomeScreen(
+    homeViewModel: HomeViewModel = koinViewModel(), onDetailClick: (Int) -> Unit
+) {
     val state: HomeState by homeViewModel.state.observeAsState(HomeState())
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
                 LogoApp()
                 Spacer(modifier = Modifier.padding(10.dp))
-                TextFieldBase(text = stringResource(R.string.search), textValue = state.searchValue,
-                    onTextValueChange = { homeViewModel.onSearchChange(it)})
+                TextFieldBase(text = stringResource(R.string.search),
+                    textValue = state.searchValue,
+                    onTextValueChange = { homeViewModel.onSearchChange(it) })
                 Spacer(modifier = Modifier.padding(10.dp))
-                ButtonBase(text = stringResource(R.string.clear), onClick =  { homeViewModel.onSearchChange("")})
+                ButtonBase(text = stringResource(R.string.clear),
+                    onClick = { homeViewModel.onSearchChange("") })
                 Spacer(modifier = Modifier.padding(10.dp))
-                if(state.filteredBeerDtos.isEmpty()) {
+                if (state.filteredBeerDtos.isEmpty()) {
                     Text(text = stringResource(R.string.not_beers))
                 }
-                if (state.isLoading){
+                if (state.isLoading) {
                     Spacer(modifier = Modifier.padding(30.dp))
                     CircularProgressIndicator()
                 }
             }
             items(state.filteredBeerDtos) { beer ->
-                Text(text = beer.name,
-                    modifier = Modifier.clickable { navController.navigate(
-                        "detail_screen/${beer.id}") {
-                        popUpTo(Screen.HomeScreen.route) {
-                            inclusive = true
-                        }
-                    }},
+                Text(
+                    text = beer.name,
+                    modifier = Modifier.clickable { onDetailClick.invoke(beer.id) },
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleLarge

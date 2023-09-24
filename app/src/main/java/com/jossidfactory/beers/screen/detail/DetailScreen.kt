@@ -24,19 +24,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.jossidfactory.beers.R
 import com.jossidfactory.beers.component.ButtonBase
 import com.jossidfactory.beers.component.LogoApp
-import com.jossidfactory.beers.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, id: String, detailViewModel: DetailViewModel =
-    koinViewModel()) {
+fun DetailScreen(
+    id: String,
+    detailViewModel: DetailViewModel = koinViewModel(),
+    onBack: () -> Unit
+) {
 
     val state: DetailState by detailViewModel.state.observeAsState(DetailState())
 
@@ -84,17 +85,7 @@ fun DetailScreen(navController: NavController, id: String, detailViewModel: Deta
                     Spacer(modifier = Modifier.padding(10.dp))
                     Text(text = "${stringResource(R.string.alcohol_content)} ${state.beerDto?.abv} %")
                     Spacer(modifier = Modifier.padding(10.dp))
-                    ButtonBase(text = stringResource(R.string.back_to_list), onClick = {
-                        navController
-                            .navigate(
-                                Screen
-                                    .HomeScreen.route
-                            ) {
-                                popUpTo(Screen.DetailScreen.route) {
-                                    inclusive = true
-                                }
-                            }
-                    })
+                    ButtonBase(text = stringResource(R.string.back_to_list), onClick = onBack)
                 }
             }
         }
