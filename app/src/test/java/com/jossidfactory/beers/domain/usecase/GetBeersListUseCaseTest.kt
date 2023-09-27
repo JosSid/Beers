@@ -7,6 +7,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
@@ -52,6 +54,6 @@ class GetBeersListUseCaseTest {
 
         //Then
             coVerify(exactly = 1) { beersRepository.getBeers() }
-            assert(result == beersList)
+            assertThat(result, equalTo(beersList))
     }
 }

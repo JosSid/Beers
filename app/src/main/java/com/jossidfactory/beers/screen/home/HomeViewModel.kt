@@ -22,7 +22,7 @@ class HomeViewModel(private val getBeersListUseCase: GetBeersListUseCase) : View
         onInit()
     }
 
-    private fun onInit() {
+    fun onInit() {
         _state.value = homeState
         viewModelScope.launch {
             try {
